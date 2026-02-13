@@ -2,6 +2,7 @@ package org.revature.revado_project.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,8 +19,8 @@ import lombok.Data;
 @Table(name = "users")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
 
 	@Column(unique = true, nullable = false)
 	private String username;

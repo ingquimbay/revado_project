@@ -2,6 +2,7 @@ package org.revature.revado_project.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -22,8 +23,8 @@ import lombok.Data;
 public class Todo {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
 
 	@Column(nullable = false)
 	private String title;
