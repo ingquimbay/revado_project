@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.revature.revado_project.entity.User;
+import org.revature.revado_project.exception.UserNotFoundException;
+import org.revature.revado_project.exception.UsernameAlreadyExistsException;
 import org.revature.revado_project.repository.UserRepo;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +22,9 @@ public class UserService {
 		return userRepo.findAll();
 	}
 
-	public Optional<User> getUserById(UUID userId) {
+	public Optional<User> getUserById(UUID userId) throws UserNotFoundException{
 		return userRepo.findById(userId);
+
 	}
 
 	public User updateUser(User updatedUser) {
@@ -35,11 +38,11 @@ public class UserService {
 
 	}
 
-	public User createUser(User user) {
+	public User createUser(User user) throws UsernameAlreadyExistsException{
 		return userRepo.save(user);
 	}
 
-	public void deleteUser(UUID userId) {
+	public void deleteUser(UUID userId) throws UserNotFoundException {
 		userRepo.deleteById(userId);
 	}
 

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.revature.revado_project.entity.User;
+import org.revature.revado_project.exception.UserNotFoundException;
+import org.revature.revado_project.exception.UsernameAlreadyExistsException;
 import org.revature.revado_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,12 +33,12 @@ public class UserController {
 	}
 
 	@GetMapping("{userId}")
-	public User getUser(@PathVariable UUID userId) {
+	public User getUser(@PathVariable UUID userId) throws UserNotFoundException {
 		return service.getUserById(userId).get();
 	}
 
 	@PostMapping
-	public User createUser(@RequestBody User user) {
+	public User createUser(@RequestBody User user) throws UsernameAlreadyExistsException {
 		return service.createUser(user);
 	}
 
@@ -46,7 +48,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("{userid}")
-	public String deleteUser(@PathVariable("userid") UUID userId) {
+	public String deleteUser(@PathVariable("userid") UUID userId) throws UserNotFoundException {
 		service.deleteUser(userId);
 		return "User deleted successfully.";
 	}
