@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -39,15 +41,17 @@ public class Todo {
 	// The Parent: Many subtasks point to one parent todo
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
+	@JsonBackReference
 	private Todo parent;
 
 	// The Children: One todo can have many subtasks
 	@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
 	private List<Todo> subtasks = new ArrayList<>();
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @JsonIgnore // Prevents serializing the whole user object in the Todo JSON
-    private User user;	
+	@JoinColumn(name = "user_id")
+	@JsonIgnore // Prevents serializing the whole user object in the Todo JSON
+	private User user;
 
 }

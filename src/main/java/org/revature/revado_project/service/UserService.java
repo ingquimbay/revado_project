@@ -22,9 +22,8 @@ public class UserService {
 		return userRepo.findAll();
 	}
 
-	public Optional<User> getUserById(UUID userId) throws UserNotFoundException{
+	public Optional<User> getUserById(UUID userId) throws UserNotFoundException {
 		return userRepo.findById(userId);
-
 	}
 
 	public User updateUser(User updatedUser) {
@@ -35,15 +34,18 @@ public class UserService {
 			user.setPassword(updatedUser.getPassword());
 		}
 		return userRepo.save(user);
-
 	}
 
-	public User createUser(User user) throws UsernameAlreadyExistsException{
+	public User createUser(User user) throws UsernameAlreadyExistsException {
 		return userRepo.save(user);
 	}
 
 	public void deleteUser(UUID userId) throws UserNotFoundException {
 		userRepo.deleteById(userId);
+	}
+
+	public boolean usernameAlreadyExists(String username) {
+		return userRepo.usernameExists(username);
 	}
 
 }

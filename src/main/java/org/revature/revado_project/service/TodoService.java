@@ -1,6 +1,7 @@
 package org.revature.revado_project.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.revature.revado_project.entity.Todo;
 import org.revature.revado_project.repository.TodoRepo;
@@ -12,10 +13,39 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TodoService {
 
-	private TodoRepo todoRepo;
+	private final TodoRepo todoRepo;
 
 	public List<Todo> getAllTodos() {
-		return todoRepo.findAll();
+		return todoRepo.findByParentIsNull();
+	}
+
+	public Todo getOneTodoById(UUID todoId) {
+		return todoRepo.findById(todoId).get();
+	}
+
+	public Todo createTodo(Todo todo) {
+		return todoRepo.save(todo);
+	}
+	
+	public Todo addSubtask(UUID todoId, Todo todo) {
+		Todo tParent = todoRepo.findById(todoId).get();
+		todo.setParent(tParent);
+		return todoRepo.save(todo);
+	}
+
+	public Todo updateTodo(Todo updatedTodo) {
+		Todo todo = null;
+		if (todoRepo.existsById(updatedTodo.getId())) {
+			todo = todoRepo.findById(updatedTodo.getId()).get();
+			todo.setTitle(updatedTodo.getTitle());
+			todo.setDescription(updatedTodo.getDescription());
+			todo.setCompleted(updatedTodo.isCompleted());
+		}
+		return todoRepo.save(todo);
+	}
+
+	public void deleteTask(UUID todoId) {
+		todoRepo.deleteById(todoId);
 	}
 
 }
