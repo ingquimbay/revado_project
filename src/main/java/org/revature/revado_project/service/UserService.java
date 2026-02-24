@@ -40,6 +40,10 @@ public class UserService {
 		return userRepo.save(user);
 	}
 
+	public User registerUser(User user) throws UsernameAlreadyExistsException {
+		return userRepo.save(user);
+	}
+
 	public void deleteUser(UUID userId) throws UserNotFoundException {
 		userRepo.deleteById(userId);
 	}
