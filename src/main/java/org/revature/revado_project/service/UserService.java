@@ -8,6 +8,7 @@ import org.revature.revado_project.entity.User;
 import org.revature.revado_project.exception.UserNotFoundException;
 import org.revature.revado_project.exception.UsernameAlreadyExistsException;
 import org.revature.revado_project.repository.UserRepo;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,10 @@ public class UserService {
 
 	public Optional<User> getUserById(UUID userId) throws UserNotFoundException {
 		return userRepo.findById(userId);
+	}
+
+	public User findUserByUsername(String username) throws UsernameNotFoundException {
+		return userRepo.findUserByUsername(username).get();
 	}
 
 	public User updateUser(User updatedUser) {

@@ -4,8 +4,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.revature.revado_project.entity.Todo;
+import org.revature.revado_project.entity.User;
 import org.revature.revado_project.service.TodoService;
+import org.revature.revado_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +29,13 @@ public class TodoController {
 	@Autowired
 	private final TodoService service;
 
+	@Autowired
+	private UserService userService;
+
 	@GetMapping
-	public List<Todo> listTodos() {
-		return service.getAllTodos();
+	public List<Todo> listTodos(@AuthenticationPrincipal UserDetails currentUser) {
+		User user = userService.findUserByUsername(currentUser.getUsername());
+		return service.getUserTodos(user);
 	}
 
 	@GetMapping("{todoid}")
@@ -36,7 +44,9 @@ public class TodoController {
 	}
 
 	@PostMapping
-	public Todo createTodo(@RequestBody Todo todo) {
+	public Todo createTodo(@RequestBody Todo todo, @AuthenticationPrincipal UserDetails currentUser) {
+		User user = userService.findUserByUsername(currentUser.getUsername());
+		todo.setUser(user);
 		return service.createTodo(todo);
 	}
 

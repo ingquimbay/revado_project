@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.revature.revado_project.entity.Todo;
+import org.revature.revado_project.entity.User;
 import org.revature.revado_project.repository.TodoRepo;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ public class TodoService {
 
 	public List<Todo> getAllTodos() {
 		return todoRepo.findByParentIsNull();
+	}
+	
+	public List<Todo> getUserTodos(User user){
+		return todoRepo.findByUserAndParentIsNull(user);
 	}
 
 	public Todo getOneTodoById(UUID todoId) {

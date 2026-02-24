@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.revature.revado_project.entity.Todo;
+import org.revature.revado_project.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,6 @@ public interface TodoRepo extends JpaRepository<Todo, UUID> {
 	List<Todo> findByUserId(UUID userId);
 
 	List<Todo> findByParentIsNull();
+	
+	List<Todo> findByUserAndParentIsNull(User user);
 }
