@@ -33,7 +33,7 @@ public class UserController {
 	}
 
 	@GetMapping("{userid}")
-	public User getUser(@PathVariable("userid") UUID userId) throws UserNotFoundException {
+	public User getUser(@PathVariable("userid") UUID userId) {
 		return service.getUserById(userId).get();
 	}
 
@@ -48,7 +48,7 @@ public class UserController {
 	}
 
 	@DeleteMapping("{userid}")
-	public String deleteUser(@PathVariable("userid") UUID userId) throws UserNotFoundException {
+	public String deleteUser(@PathVariable("userid") UUID userId) {
 		String username = service.getUserById(userId).get().getUsername();
 		service.deleteUser(userId);
 		return "User " + username + " deleted successfully.";

@@ -27,7 +27,10 @@ public class UserService {
 		return userRepo.findById(userId);
 	}
 
-	public User findUserByUsername(String username) throws UsernameNotFoundException {
+	public User findUserByUsername(String username) {
+		if (userRepo.findUserByUsername(username).isEmpty()) {
+			throw new UserNotFoundException("User does not exists.");
+		}
 		return userRepo.findUserByUsername(username).get();
 	}
 
@@ -49,7 +52,10 @@ public class UserService {
 		return userRepo.save(user);
 	}
 
-	public void deleteUser(UUID userId) throws UserNotFoundException {
+	public void deleteUser(UUID userId) {
+		if (userRepo.findById(userId).isEmpty()) {
+			throw new UserNotFoundException("User does not exists.");
+		}
 		userRepo.deleteById(userId);
 	}
 
