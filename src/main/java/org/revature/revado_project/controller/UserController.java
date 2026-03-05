@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.UUID;
 
 import org.revature.revado_project.entity.User;
-import org.revature.revado_project.exception.UserNotFoundException;
 import org.revature.revado_project.exception.UsernameAlreadyExistsException;
 import org.revature.revado_project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +30,15 @@ public class UserController {
 	@GetMapping
 	public List<User> getAllUsers() {
 		return service.getAllUsers();
+	}
+
+	@GetMapping("/me")
+	public User getCurrentUser(Authentication authentication) {
+		if (authentication == null || !authentication.isAuthenticated()) {
+			return null;
+		}
+		String username = authentication.getName();
+		return service.getUserByUsername(username);
 	}
 
 	@GetMapping("{userid}")

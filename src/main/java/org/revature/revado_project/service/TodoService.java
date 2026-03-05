@@ -19,8 +19,8 @@ public class TodoService {
 	public List<Todo> getAllTodos() {
 		return todoRepo.findByParentIsNull();
 	}
-	
-	public List<Todo> getUserTodos(User user){
+
+	public List<Todo> getUserTodos(User user) {
 		return todoRepo.findByUserAndParentIsNull(user);
 	}
 
@@ -31,11 +31,13 @@ public class TodoService {
 	public Todo createTodo(Todo todo) {
 		return todoRepo.save(todo);
 	}
-	
+
 	public Todo addSubtask(UUID todoId, Todo todo) {
 		Todo tParent = todoRepo.findById(todoId).get();
+		todo.setUser(tParent.getUser());
 		todo.setParent(tParent);
-		return todoRepo.save(todo);
+		todoRepo.save(todo);
+		return tParent;
 	}
 
 	public Todo updateTodo(Todo updatedTodo) {
